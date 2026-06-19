@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Honor Benefits — 401(k) Help</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Spectral:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <a class="brand" href="https://honorhealthnetwork.com" target="_blank" rel="noopener noreferrer">
+        <img class="logo" src="honor-health-logo.jpg" alt="Honor Health Network" />
+      </a>
+      <span class="divider"></span>
+      <span class="sub">Benefits Questions, Answered</span>
+    </header>
+
+    <div class="scroll" id="scroll">
+      <div class="inner">
+        <div class="empty" id="empty">
+          <h1 class="empty-h">Ask anything about your 401(k)</h1>
+          <p class="empty-p">Plain answers about contributions, matching, vesting, loans, and more. No appointment, no waiting on hold. Just type your question below.</p>
+          <div class="starters-label">Common questions</div>
+          <div class="starters" id="starters"></div>
+        </div>
+        <div class="msgs" id="msgs"></div>
+      </div>
+    </div>
+
+    <footer class="foot">
+      <div class="foot-inner">
+        <div class="composer">
+          <textarea id="input" class="input" rows="1" placeholder="Type your 401(k) question..."></textarea>
+          <button id="send" class="send" aria-label="Send">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <p class="disclaimer"><b>This is general information, not financial, tax, or legal advice.</b> For decisions about your own account, contact HHN HR or the plan administrator.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

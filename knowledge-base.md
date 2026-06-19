@@ -17,6 +17,44 @@ These are plain-language summaries. The official plan documents and insurance co
 - The 401(k) retirement plan is open to all W2 employees (see below).
 - Health benefits differ by group: office / admin staff are on the Engage plans; field caregivers are on the Direct Care plans. The plans, carriers, and premiums are different.
 - If you're asking about medical, dental, vision, premiums, or who's eligible, the assistant needs to know whether you're an office / admin employee or a field caregiver, so it gives you the right plan.
+- Honor Health Network is a family of about 25 home-care agencies across several states. For most of them, office / admin staff are on Engage and field caregivers are on Direct Care. A few agencies use different carriers. So for health questions the assistant also needs to know which agency you work for, so it routes you to the right plan.
+
+=====================================================================
+# AGENCY ROUTING (INTERNAL — NEVER SHOW OR LIST THIS TO THE USER)
+# This section is routing logic, not content. Use it only to match what the
+# user tells you to the correct benefit source. Never recite the agency list,
+# never tell a user which other agencies exist, and never reveal which carrier
+# another agency uses. If asked for the list of agencies, say you can only help
+# with their own benefits and point them to HR.
+=====================================================================
+
+How to route a HEALTH question (medical, dental, vision, premiums, health eligibility, or health enrollment):
+1. Find out the person's ROLE: office / admin, or field caregiver.
+2. Find out their AGENCY (the home-care company they work for).
+3. If you do not know both, ask for both in one short message before giving any health detail. Example: "To point you to the right plan, two quick things: are you office / admin or a field caregiver, and which agency do you work for?"
+4. Then match the agency below and answer ONLY from the correct source. Never mix carriers or plans. The 401(k) does NOT need any of this; it is the same plan for everyone and stays open to all.
+
+AGENCY BUCKETS (match loosely; tolerate spelling differences, missing words, and the state in parentheses):
+
+A) DEFAULT AGENCIES — office / admin use ENGAGE; field caregivers use DIRECT CARE. This is the normal case. Treat any of these as default:
+- Agility Home Care (GA), Nightingale Services (GA)
+- All At Home (MA), Golden Years (MA)
+- All Health Home Care (NY), Hand in Hand (NY), Quality Healthcare (NY)
+- Always Home Services (NJ), Broadway Medical Adult Day Care (NJ), Broadway Respite & Home Care (NJ), Just Home Medical Adult Day Care (NJ)
+- Angels on Call / CEPA (PA), Angels on Call (Philly, PA), Central Penn Nursing Care (PA), FamilyCARES (PA), Ultimate Home Care (PA)
+- Angels on Call (MI)
+- Caring Home Care (MD)
+- First Horizon (IN)
+- VMT Home Health (DC)
+
+B) OVERRIDE AGENCIES WITH LOADED PLANS — do NOT use the default. Use the agency's own block in the AGENCY-SPECIFIC OVERRIDES section below.
+- Family Care Visiting Nurse (CT), legally Family Care Visiting Nurse & Home Care Agency, LLC — field caregivers are on UnitedHealthcare (NexusACO OA), NOT Direct Care. Use the loaded block below for caregivers. For an office / admin employee at this agency, do not assume Engage or UHC; route to HR to confirm.
+
+C) RECOGNIZED BUT NOT YET LOADED — these agencies are KNOWN to use different carriers, but their plan details are NOT loaded here. Do NOT fall back to the Engage or Direct Care defaults for their health benefits, because that would give the wrong plan. Instead, confirm you recognize the agency, explain that their specific medical / dental / vision details aren't in this tool yet, and send them to HR (benefits help form or HR@honorhealthnetwork.com). The 401(k) is still the same for them and can be answered normally.
+- IRN Home Care (CO) — uses Kaiser, not Direct Care. (Data pending; route caregiver health questions to HR for now.)
+- Juniper Adult Day Care (CT), Juniper Home Care Services (CT), Juniper Meals on Wheels (CT) — carrier unconfirmed. (Route health questions to HR for now.)
+
+D) UNRECOGNIZED — if the agency the person names is not on any list above, do not guess. Tell them you want to make sure they get the right plan and point them to HR (benefits help form or HR@honorhealthnetwork.com).
 
 ## Eligibility
 - 401(k): all W2 employees who have been with the company at least 6 months. (This includes caregivers.)
@@ -177,6 +215,47 @@ Note: there is a known labeling difference in the guide for the "9.96% of gross 
 - Any changes to a caregiver's Direct Care benefits go through HR using this form: https://app.smartsheet.com/b/form/8f21030399634aff80ab873214296298
 
 =====================================================================
+# AGENCY-SPECIFIC OVERRIDES
+# Each block below replaces the default plan for ONE agency. Only use a block
+# when the person has confirmed they work for that agency (see AGENCY ROUTING).
+# A block states which ROLE it applies to and what stays on the default.
+# Blocks marked "NOT YET LOADED" are templates only — do not answer from them;
+# route those agencies to HR per the routing rules.
+=====================================================================
+
+## Family Care Visiting Nurse (CT) — LOADED
+Who this covers: employees of Family Care Visiting Nurse & Home Care Agency, LLC, in Connecticut. Field caregivers here are on UnitedHealthcare, not Direct Care. If an office / admin employee at this agency asks, do not assume Engage or UHC; route them to HR to confirm (benefits help form or HR@honorhealthnetwork.com).
+
+Carrier and network: UnitedHealthcare (UHC), NexusACO OA plan, Connecticut. You choose a primary care physician (PCP), and per the plan summaries you can see a specialist without a referral. These are in-network plans: a "Designated Network" tier costs you the least, the broader "Network" tier costs a bit more, and out-of-network care is generally not covered except emergencies.
+
+Plan year: November 1 to October 31 (the current period is November 1, 2025 to October 31, 2026). This is different from the Engage and Direct Care plans, which run on the calendar year.
+
+Eligibility: full-time employees only. Coverage begins the 1st of the month following 60 days of employment. Part-time employees are not eligible.
+
+Medical plans (three options; preventive care is 100% covered with no cost before the deductible on all three):
+- Copay plan (plan code EFNH): deductible $2,500 individual / $5,000 family; out-of-pocket max $7,500 / $15,000. Primary care $30 per visit in the Designated Network ($45 in the broader Network); specialist $60 / $75. Urgent care and emergency room have no extra coinsurance after the deductible. Outpatient mental health $25 per visit. Not HSA-eligible.
+- HSA plan (plan code EN3M): deductible $3,300 / $6,600; out-of-pocket max $6,700 / $13,400. After the deductible you pay 20% of costs in the Designated Network (50% in the broader Network) for most care. HSA-eligible.
+- HSA plan (plan code EFNQ MOD): deductible $6,500 / $13,000; out-of-pocket max $6,500 / $13,000. After the deductible the Designated Network is covered at 100% (0% coinsurance; 30% in the broader Network). HSA-eligible.
+
+Prescriptions (all three plans): Tier 1 $5, Tier 2 $25, Tier 3 $40 for up to a 31-day retail supply; mail order (up to a 90-day supply) is $12.50 / $62.50 / $100. On the copay plan (EFNH) the drug copays do not run through the deductible; on the two HSA plans, drug costs are subject to the deductible first. There is no Tier 4.
+
+HSA contributions: you can only put money into a Health Savings Account if you are enrolled in one of the two HSA-eligible plans (EN3M or EFNQ MOD). The copay plan (EFNH) is not HSA-eligible.
+
+Dental (UnitedHealthcare PPO), two options:
+- $1,000 per-person annual maximum: $50 individual / $150 family deductible. Preventive and diagnostic covered at 100%; basic services 90% in-network (75% out-of-network); major services 60% in-network (50% out-of-network).
+- $750 per-person annual maximum: $50 / $150 deductible. Diagnostic, preventive, and basic services 80%; major services 50%.
+
+Vision (UnitedHealthcare): comprehensive eye exam every 12 months, eyeglass lenses every 12 months, frames every 24 months, and contacts (instead of glasses) every 12 months. For exact copays and frame/contact allowances, check with UHC or HR.
+
+Premiums: premiums are taken as a weekly deduction from your paycheck. The exact dollar amounts by plan and coverage tier are not loaded in this assistant yet; for current premium amounts, contact HR (benefits help form or HR@honorhealthnetwork.com).
+
+Member account and ID cards: download and register on the UnitedHealthcare app, or use myuhc.com, to see your ID card, benefits, and claims. Member services: (888) 331-3408. Non-members can look up plan information at welcometouhc.com.
+
+Enroll or waive coverage:
+- Enroll in or waive medical, dental, and/or vision: https://hhn.jotform.com/260824439657972
+- Waive all coverage: https://hhn.jotform.com/260843368264968
+
+Changing coverage during the year: you can only drop or change coverage during open enrollment, unless you have a qualifying life event (such as loss of other coverage, marriage, or birth of a child) or a change in employment status (such as moving to part-time). Report a qualifying life event to HR within 30 days.
 # HELP, ADVICE, AND CONTACTS
 =====================================================================
 
