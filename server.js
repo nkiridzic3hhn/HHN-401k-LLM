@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
 import { buildSystemPrompt } from "./prompt.js";
+import { loadPackages, assembleKnowledge, isEnabled, packageSummaries } from "./packages.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -20,17 +21,35 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const PRICE_IN_PER_MTOK = parseFloat(process.env.PRICE_IN_PER_MTOK || "3.00");
 const PRICE_OUT_PER_MTOK = parseFloat(process.env.PRICE_OUT_PER_MTOK || "15.00");
 
-// --- Load the knowledge base once at startup -------------------------------
-// To update answers, edit knowledge-base.md and redeploy (push to GitHub;
-// Railway redeploys automatically).
-let KNOWLEDGE_BASE = "";
-try {
-  KNOWLEDGE_BASE = fs.readFileSync(path.join(__dirname, "knowledge-base.md"), "utf8");
-  console.log(`Loaded knowledge base (${KNOWLEDGE_BASE.length} chars).`);
-} catch (e) {
-  console.warn("No knowledge-base.md found yet:", e.message);
+// --- Knowledge packages ----------------------------------------------------
+// The knowledge base is split into packages/ (one file per plan or agency).
+// The active system prompt is assembled from CORE plus whichever packages are
+// enabled. Editing a package's text still means edit + push + redeploy, but
+// turning a package on/off is live from /admin (no redeploy) and persists in
+// the package_state table. If packages/ is empty, we fall back to the legacy
+// single knowledge-base.md so the assistant never goes dark.
+const PACKAGES_DIR = path.join(__dirname, "packages");
+let PACKAGES = loadPackages(PACKAGES_DIR);
+let packageState = {}; // id -> boolean; loaded from the DB at startup
+let SYSTEM_PROMPT = "";
+
+function rebuildSystemPrompt() {
+  let kb = "";
+  if (PACKAGES.length) {
+    kb = assembleKnowledge(PACKAGES, packageState);
+  } else {
+    try {
+      kb = fs.readFileSync(path.join(__dirname, "knowledge-base.md"), "utf8");
+      console.warn("No packages/ found — using legacy knowledge-base.md.");
+    } catch (e) {
+      console.warn("No packages and no knowledge-base.md:", e.message);
+    }
+  }
+  SYSTEM_PROMPT = buildSystemPrompt(kb);
+  return SYSTEM_PROMPT;
 }
-const SYSTEM_PROMPT = buildSystemPrompt(KNOWLEDGE_BASE);
+rebuildSystemPrompt();
+console.log(`Loaded ${PACKAGES.length} knowledge package(s); system prompt is ${SYSTEM_PROMPT.length} chars.`);
 
 // --- Question log (Postgres) -----------------------------------------------
 // Optional: if DATABASE_URL isn't set, the assistant still runs normally and
@@ -71,10 +90,34 @@ async function initDb() {
     await pool.query(`ALTER TABLE questions ADD COLUMN IF NOT EXISTS topic TEXT;`);
     await pool.query(`ALTER TABLE questions ADD COLUMN IF NOT EXISTS agency TEXT;`);
     await pool.query(`CREATE INDEX IF NOT EXISTS questions_created_at_idx ON questions (created_at);`);
+    // Per-package on/off state for the knowledge packages. Survives redeploys.
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS package_state (
+        id TEXT PRIMARY KEY,
+        enabled BOOLEAN NOT NULL,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+      );
+    `);
     dbReady = true;
-    console.log("Question log is ready.");
+    await loadPackageState();
+    console.log("Question log and package state are ready.");
   } catch (e) {
-    console.error("Could not initialize the question log table:", e.message);
+    console.error("Could not initialize the database tables:", e.message);
+  }
+}
+
+// Load saved package on/off state from the DB and rebuild the system prompt so
+// admin toggles persist across redeploys.
+async function loadPackageState() {
+  if (!pool || !dbReady) return;
+  try {
+    const { rows } = await pool.query("SELECT id, enabled FROM package_state");
+    packageState = {};
+    for (const r of rows) packageState[r.id] = r.enabled;
+    rebuildSystemPrompt();
+    console.log(`Applied saved state for ${rows.length} package(s).`);
+  } catch (e) {
+    console.error("Could not load package state:", e.message);
   }
 }
 
@@ -435,6 +478,62 @@ app.post("/api/admin/questions/:id/review", adminAuth, async (req, res) => {
     console.error("Could not update question:", e.message);
     res.status(500).json({ error: "Could not update." });
   }
+});
+
+// --- Knowledge packages (admin config) -------------------------------------
+// List every package with its on/off state and metadata. `persisted` tells the
+// UI whether toggles will survive a redeploy (they only do when the DB is up).
+app.get("/api/admin/packages", adminAuth, (_req, res) => {
+  res.json({
+    persisted: !!(pool && dbReady),
+    activePromptChars: SYSTEM_PROMPT.length,
+    packages: packageSummaries(PACKAGES, packageState),
+  });
+});
+
+// Full text of one package, for the admin preview panel.
+app.get("/api/admin/packages/:id", adminAuth, (req, res) => {
+  const pkg = PACKAGES.find((p) => p.id === req.params.id);
+  if (!pkg) return res.status(404).json({ error: "No such package." });
+  res.json({
+    id: pkg.id,
+    title: pkg.title,
+    type: pkg.type,
+    locked: pkg.locked,
+    enabled: isEnabled(pkg, packageState),
+    sizeChars: pkg.sizeChars,
+    body: pkg.body,
+  });
+});
+
+// Turn a package on or off. Takes effect on the next chat within seconds; no
+// redeploy. Locked packages (core) cannot be turned off.
+app.post("/api/admin/packages/:id", adminAuth, async (req, res) => {
+  const pkg = PACKAGES.find((p) => p.id === req.params.id);
+  if (!pkg) return res.status(404).json({ error: "No such package." });
+  if (pkg.locked) {
+    return res.status(400).json({ error: "This package is always on and can't be turned off." });
+  }
+  const enabled = req.body?.enabled !== false;
+  packageState[pkg.id] = enabled;
+
+  let persisted = false;
+  if (pool && dbReady) {
+    try {
+      await pool.query(
+        `INSERT INTO package_state (id, enabled, updated_at) VALUES ($1, $2, now())
+         ON CONFLICT (id) DO UPDATE SET enabled = EXCLUDED.enabled, updated_at = now()`,
+        [pkg.id, enabled]
+      );
+      persisted = true;
+    } catch (e) {
+      console.error("Could not persist package state:", e.message);
+    }
+  }
+
+  rebuildSystemPrompt();
+  console.log(`Package "${pkg.id}" turned ${enabled ? "ON" : "OFF"} (prompt now ${SYSTEM_PROMPT.length} chars).`);
+  res.json({ ok: true, id: pkg.id, enabled, persisted });
 });
 
 // --- Static site (the employee-facing assistant) ---------------------------

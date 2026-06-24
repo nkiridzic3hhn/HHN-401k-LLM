@@ -1,6 +1,13 @@
 # Honor Health Network — Benefits Knowledge Base
 
 <!--
+⚠️ DEPRECATED — DO NOT EDIT FOR CONTENT CHANGES.
+The knowledge base now lives in the packages/ folder (core.md, engage-default.md,
+direct-care-default.md, and one file per agency). The server assembles the live
+prompt from those files and ignores this one unless packages/ is missing. This
+file is kept only as an emergency fallback and may be out of date. To change what
+the assistant knows, edit the matching file in packages/ and push to GitHub.
+
 HOW THIS FILE WORKS
 This is the assistant's single source of truth. Edit it and push to GitHub; Railway redeploys.
 This tool now covers (1) the 401(k) retirement plan and (2) health and other benefits.

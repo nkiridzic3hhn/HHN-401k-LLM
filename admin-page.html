@@ -55,6 +55,29 @@
     .empty { color: var(--muted); font-size: 14px; padding: 26px 0; text-align: center; }
     .chart { width: 100%; height: 150px; display: block; }
     .chart .axis { font-size: 9px; fill: var(--muted); }
+    /* Knowledge packages */
+    .pkg { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; background: var(--card); }
+    .pkg.off { background: #f7f9fc; }
+    .pkg-top { display: flex; align-items: center; gap: 12px; }
+    .pkg-main { flex: 1; min-width: 0; }
+    .pkg-title { font-weight: 600; font-size: 15px; color: var(--navy); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .pkg-summary { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+    .pkg-meta { font-size: 11px; color: var(--muted); margin-top: 5px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .pill.type { background: #e7f0f6; color: var(--navy); }
+    .pill.dim { background: #eef2f7; color: var(--muted); }
+    .pkg-preview { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 10px; font-size: 12.5px; color: #34414f; white-space: pre-wrap; max-height: 320px; overflow: auto; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; line-height: 1.45; }
+    .link-btn { border: none; background: none; color: var(--cyan); cursor: pointer; font-size: 12px; padding: 0; font-weight: 500; }
+    .link-btn:hover { text-decoration: underline; }
+    /* toggle switch */
+    .switch { position: relative; display: inline-block; width: 46px; height: 26px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; inset: 0; background: #c5d0de; border-radius: 999px; transition: .18s; }
+    .slider::before { content: ""; position: absolute; height: 20px; width: 20px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .18s; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
+    .switch input:checked + .slider { background: var(--green); }
+    .switch input:checked + .slider::before { transform: translateX(20px); }
+    .switch input:disabled + .slider { cursor: default; opacity: .55; }
+    .lock-badge { font-size: 11px; color: var(--muted); display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+    .pkg.busy { opacity: .6; pointer-events: none; }
   </style>
 </head>
 <body>
@@ -63,6 +86,13 @@
     <span class="sub">Usage, cost, and what employees are asking</span>
   </header>
   <div class="wrap">
+
+    <div class="section-title">Knowledge packages</div>
+    <div class="panel" style="margin-bottom:6px">
+      <p class="note" style="margin:0 0 4px">Turn an agency or plan on or off. When a package is off, the assistant stops answering on that agency's plan and instead points those employees to HR. Core (the 401k plan, persona, and routing) is always on. Changes take effect on new chats within a few seconds — no redeploy.</p>
+      <p class="note" id="pkgPersistNote" style="margin:0"></p>
+    </div>
+    <div id="packages"><div class="empty">Loading…</div></div>
 
     <div class="section-title">Usage</div>
     <div class="cards" id="usageCards"><div class="empty">Loading…</div></div>
@@ -254,6 +284,91 @@
       });
     });
 
+    // --- Knowledge packages -------------------------------------------------
+    const TYPE_LABELS = { core: "Core", "default-plan": "Default plan", agency: "Agency" };
+    const openPreviews = new Set();
+
+    async function loadPackages() {
+      const el = document.getElementById("packages");
+      let data;
+      try {
+        const res = await fetch("/api/admin/packages");
+        if (!res.ok) throw new Error();
+        data = await res.json();
+      } catch { el.innerHTML = '<div class="empty">Could not load packages.</div>'; return; }
+
+      const note = document.getElementById("pkgPersistNote");
+      note.textContent = data.persisted
+        ? "Toggles are saved and persist across redeploys. Active prompt: " + (data.activePromptChars || 0).toLocaleString() + " characters."
+        : "Heads up: the database isn't connected, so toggles work for now but reset on the next redeploy.";
+      note.className = data.persisted ? "note" : "note warn";
+
+      const pkgs = data.packages || [];
+      el.innerHTML = pkgs.length ? pkgs.map(renderPackage).join("") : '<div class="empty">No packages found.</div>';
+      openPreviews.forEach((id) => { const p = document.getElementById("prev-" + id); if (p) loadPreview(id); });
+    }
+
+    function renderPackage(p) {
+      const sw = p.locked
+        ? '<span class="lock-badge">🔒 Always on</span>'
+        : `<label class="switch"><input type="checkbox" ${p.enabled ? "checked" : ""}
+             onchange="togglePackage('${p.id}', this.checked)"><span class="slider"></span></label>`;
+      const kb = Math.round((p.sizeChars || 0) / 1000 * 10) / 10;
+      return `
+        <div class="pkg ${p.enabled ? "" : "off"}" id="pkg-${p.id}">
+          <div class="pkg-top">
+            <div class="pkg-main">
+              <div class="pkg-title">${esc(p.title)}
+                <span class="pill type">${esc(TYPE_LABELS[p.type] || p.type)}</span>
+                ${p.enabled ? '' : '<span class="pill dim">off</span>'}
+              </div>
+              ${p.summary ? `<div class="pkg-summary">${esc(p.summary)}</div>` : ""}
+              <div class="pkg-meta">
+                <span>${kb}k chars</span>
+                <button class="link-btn" onclick="togglePreview('${p.id}')" id="prevbtn-${p.id}">${openPreviews.has(p.id) ? "Hide content" : "Preview content"}</button>
+              </div>
+            </div>
+            ${sw}
+          </div>
+          <div id="prev-${p.id}">${openPreviews.has(p.id) ? '<div class="pkg-preview">Loading…</div>' : ""}</div>
+        </div>`;
+    }
+
+    async function togglePackage(id, enabled) {
+      const card = document.getElementById("pkg-" + id);
+      if (card) card.classList.add("busy");
+      try {
+        const res = await fetch("/api/admin/packages/" + encodeURIComponent(id), {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ enabled }),
+        });
+        if (!res.ok) throw new Error();
+      } catch {
+        alert("Could not change that package. It has been left as it was.");
+      }
+      loadPackages();
+    }
+
+    function togglePreview(id) {
+      if (openPreviews.has(id)) openPreviews.delete(id); else openPreviews.add(id);
+      loadPackages();
+    }
+
+    async function loadPreview(id) {
+      const host = document.getElementById("prev-" + id);
+      if (!host) return;
+      host.innerHTML = '<div class="pkg-preview">Loading…</div>';
+      try {
+        const res = await fetch("/api/admin/packages/" + encodeURIComponent(id));
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        host.innerHTML = '<div class="pkg-preview">' + esc(data.body || "(empty)") + "</div>";
+      } catch {
+        host.innerHTML = '<div class="pkg-preview">Could not load content.</div>';
+      }
+    }
+
+    loadPackages();
     loadStats();
     loadList();
   </script>
