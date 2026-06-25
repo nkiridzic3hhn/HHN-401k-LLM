@@ -23,11 +23,18 @@
     <div class="scroll" id="scroll">
       <div class="inner">
         <div class="empty" id="empty">
-          <h1 class="empty-h">Ask anything about your benefits</h1>
-          <p class="empty-p">Plain answers about your 401(k), medical, dental, vision, eligibility, enrollment, and more. No appointment, no waiting on hold. Just type your question below.</p>
-          <p class="empty-p" style="margin-top:-4px">¿Prefiere español? Escriba su pregunta en español y le responderé en español.</p>
-          <div class="starters-label">Common questions</div>
-          <div class="starters" id="starters"></div>
+          <div class="intro" id="intro">
+            <div class="greet-row">
+              <div class="greet-av"><img src="assistant-avatar.png" alt="Benny" /></div>
+              <div class="greet-bubble" id="greetBubble">
+                <div class="dots" id="greetDots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+                <span class="greet-text" id="greetText"></span>
+              </div>
+            </div>
+            <div class="starters" id="starters"></div>
+            <p class="empty-p spanish-line">¿Prefiere español? Escriba su pregunta en español y le responderé en español.</p>
+          </div>
+          <img class="benny" id="benny" src="benny.png" alt="" />
         </div>
         <div class="msgs" id="msgs"></div>
       </div>

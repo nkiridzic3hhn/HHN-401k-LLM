@@ -548,6 +548,7 @@ const STATIC_FILES = {
   "/app.js": "app.js",
   "/honor-health-logo.jpg": "honor-health-logo.jpg",
   "/assistant-avatar.png": "assistant-avatar.png",
+  "/benny.png": "benny.png",
 };
 const PUBLIC_PDFS = new Set([
   "2026-engage-benefits-summary.pdf",

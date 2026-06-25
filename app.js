@@ -1,16 +1,18 @@
+const GREETING = "Hey, I'm Benny! I'm your handy Honor Benefits agent. Is there something I can help you with?";
+
 const STARTERS = [
-  "When am I eligible for health benefits?",
-  "What medical plans can I choose from?",
-  "How much does the 401(k) match?",
-  "How do I enroll, and what's the deadline?",
-  "Can I change my health plan mid-year?",
-  "What's the difference between traditional and Roth?",
+  "How does the 401(k) match work?",
+  "When can I get health insurance?",
+  "How do I enroll?",
+  "Can I change my plan mid-year?",
 ];
 
 const scrollEl = document.getElementById("scroll");
 const msgsEl = document.getElementById("msgs");
 const emptyEl = document.getElementById("empty");
 const startersEl = document.getElementById("starters");
+const greetTextEl = document.getElementById("greetText");
+const greetDotsEl = document.getElementById("greetDots");
 const inputEl = document.getElementById("input");
 const sendEl = document.getElementById("send");
 
@@ -21,14 +23,44 @@ let loading = false;
 // questions together. Not tied to identity; resets on page reload.
 const SESSION_ID = (crypto?.randomUUID?.() || String(Date.now()) + Math.random().toString(16).slice(2));
 
-// Build starter chips
-STARTERS.forEach((q) => {
-  const b = document.createElement("button");
-  b.className = "chip";
-  b.textContent = q;
-  b.addEventListener("click", () => send(q));
-  startersEl.appendChild(b);
-});
+// Build the starter chips (called after Benny "types" his greeting).
+function buildChips() {
+  STARTERS.forEach((q, i) => {
+    const b = document.createElement("button");
+    b.className = "chip chip-in";
+    b.style.animationDelay = (i * 90) + "ms";
+    b.textContent = q;
+    b.addEventListener("click", () => send(q));
+    startersEl.appendChild(b);
+  });
+}
+
+// Benny's entrance: show typing dots, then typewrite the greeting, then chips.
+function playIntro() {
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) {
+    if (greetDotsEl) greetDotsEl.remove();
+    greetTextEl.textContent = GREETING;
+    buildChips();
+    return;
+  }
+  setTimeout(() => {
+    if (greetDotsEl) greetDotsEl.remove();
+    greetTextEl.classList.add("typing");
+    let i = 0;
+    (function step() {
+      greetTextEl.textContent = GREETING.slice(0, i);
+      if (i < GREETING.length) {
+        i += 1;
+        setTimeout(step, 24);
+      } else {
+        greetTextEl.classList.remove("typing");
+        buildChips();
+      }
+    })();
+  }, 850);
+}
+playIntro();
 
 const BOT_AVATAR = `
   <div class="avatar" aria-hidden="true">
