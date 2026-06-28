@@ -97,9 +97,7 @@ body {
   88% { transform: rotate(2deg); }
 }
 @media (max-width: 1180px) { .benny { width: 320px; } }
-@media (max-width: 920px)  { .benny { width: 240px; left: 12px; top: 70px; } }
-@media (max-width: 680px)  { .benny { width: 150px; left: 6px; top: 64px; } }
-@media (max-width: 460px)  { .benny { display: none; } }
+@media (max-width: 920px)  { .benny { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .intro, .chip-in { animation: none; opacity: 1; }
   .benny { animation: bennyIn .4s ease forwards; }
