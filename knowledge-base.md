@@ -20,6 +20,55 @@ The assistant must find out which group a person is in before giving health bene
 These are plain-language summaries. The official plan documents and insurance contracts always control.
 -->
 
+=====================================================================
+# HONOR HEALTH NETWORK — ORGANIZATION OVERVIEW
+# Use this section to answer general questions about what HHN is, what it does,
+# its mission, services, locations, and member agencies. This is public information.
+=====================================================================
+
+## About Honor Health Network
+Honor Health Network is a national leader in home health and community care. It is a portfolio company of Webster Equity Partners, led by CEO Simon Shemia. HHN operates across 11 states with 70+ locations, serving over 11,500 clients with more than 10,000 caregivers, delivering 430,000+ hours of care weekly.
+
+HHN's mission is to provide a network of healthcare resources renowned for the treatment of employees, patients, and the community in a financially sustainable way. Its vision is to change the definition of responsible care in all of its markets and to have the Honor name associated with unrivaled patient care while being the employer of choice in the communities it serves.
+
+HHN's core values are: Community, Innovation, Ambition, Trust and Transparency, Personal Integrity, and Compassion.
+
+Headquarters: 100 Challenger Road, Suite 105, Ridgefield Park, NJ 07660. General contact: info@honorhealthnetwork.com.
+
+Website: https://www.honorhealthnetwork.com
+About page: https://www.honorhealthnetwork.com/about/
+Careers: https://www.honorhealthnetwork.com/careers/
+Find an agency: https://www.honorhealthnetwork.com/locations/
+Contact: https://www.honorhealthnetwork.com/contact/
+Confidential report: https://www.honorhealthnetwork.com/make-a-confidential-report/
+
+## HHN Services
+HHN offers five main service lines across its member agencies:
+- Non-Medical Services: assistance with daily activities such as bathing, dressing, meal preparation, and housekeeping.
+- Consumer Direct Waivers: programs that let individuals or families choose their own caregivers, including family members, with financial support.
+- Adult Day Care: safe, engaging daytime programs for seniors and adults with disabilities, providing respite for family caregivers.
+- Infusion Therapy: in-home delivery of treatments such as antibiotics, hydration, and chemotherapy under trained professional supervision.
+- Skilled Nursing Services: licensed nurses providing wound care, medication management, and post-hospitalization support at home.
+
+## HHN Member Agencies (by state)
+HHN operates a family of over 20 trusted brands. Employees asking general questions about which agency serves their area can visit https://www.honorhealthnetwork.com/locations/ or contact info@honorhealthnetwork.com.
+- New Jersey: Always Home Services, Broadway Medical Adult Day Care, Broadway Respite & Home Care, Just Home Medical Adult Day Care
+- New York: All Health Home Care, Hand in Hand, Quality Healthcare
+- Pennsylvania: Angels on Call / CEPA, Angels on Call (Philly), Central Penn Nursing Care, FamilyCARES, Ultimate Home Care
+- Massachusetts: All At Home, Golden Years
+- Georgia: Agility Home Care, Nightingale Services
+- Michigan: Angels on Call
+- Maryland: Caring Home Care
+- Washington DC: VMT Home Health
+- Connecticut: Family Care Visiting Nurse, Juniper Adult Day Care, Juniper Home Care Services, Juniper Meals on Wheels
+- Indiana: First Horizon Home Health Care
+- Colorado: IRN Home Care
+
+## Feedback, Suggestions, and Complaints
+- To share a suggestion or feedback: use the Suggestion Box at https://app.smartsheet.com/b/form/019cfc3e21317873badfce895a10db97
+- To make a formal/official complaint: use the Official Complaint Form at https://hhn.jotform.com/213206348366051
+- To make a confidential report: https://www.honorhealthnetwork.com/make-a-confidential-report/
+
 ## How benefits work here (read first)
 - The 401(k) retirement plan is open to all W2 employees (see below).
 - Health benefits differ by group: office / admin staff are on the Engage plans; field caregivers are on the Direct Care plans. The plans, carriers, and premiums are different.
@@ -298,7 +347,7 @@ VOLUNTARY LIFE — Principal (employee-paid, premiums bi-weekly, based on age).
 - Employee: elect in $10,000 increments up to $300,000; guaranteed issue (no health questions) is $30,000 if under 70, or $10,000 if 70 or older.
 - Spouse: $5,000 increments up to $100,000 (employee must enroll first); guaranteed issue $10,000. Spouse premium is based on the employee's age.
 - Dependent children: $5,000 or $10,000 (covers all children); guaranteed issue $10,000.
-- Bi-weekly rate per $1,000 of coverage by employee age: under 25 and 25–29 = $0.117; 30–34 = $0.134; 35–39 = $0.365; 40–44 = $0.296; 45–49 = $0.439; 50–54 = $0.712; 55–59 = $1.139; 60–64 = $1.727; 65–69 = $2.936; 70+ = $5.302 (benefits reduce at 65 and again at 70). To estimate a bi-weekly premium, multiply the rate for the person's age by the number of thousands of coverage (for example, $30,000 at age 42 is 0.296 × 30 = about $8.88 bi-weekly). Dependent children cost $0.41 bi-weekly for $5,000 or $0.92 for $10,000.
+- Bi-weekly rate per $1,000 of coverage by employee age: under 25 and 25-29 = $0.117; 30-34 = $0.134; 35-39 = $0.365; 40-44 = $0.296; 45-49 = $0.439; 50-54 = $0.712; 55-59 = $1.139; 60-64 = $1.727; 65-69 = $2.936; 70+ = $5.302 (benefits reduce at 65 and again at 70). To estimate a bi-weekly premium, multiply the rate for the person's age by the number of thousands of coverage (for example, $30,000 at age 42 is 0.296 x 30 = about $8.88 bi-weekly). Dependent children cost $0.41 bi-weekly for $5,000 or $0.92 for $10,000.
 
 Carrier contacts: Anthem medical 800-552-9159, anthem.com (network: Blue Access). Principal (dental, vision, life) 800-247-4695, principal.com. For enrollment paperwork or to make a change after a qualifying event, contact HR (benefits help form or HR@honorhealthnetwork.com).
 
@@ -314,6 +363,8 @@ Carrier contacts: Anthem medical 800-552-9159, anthem.com (network: Blue Access)
 - Office / admin (Engage) specific benefit questions: (877) 233-8205.
 - Field caregiver (Direct Care) questions: use the carrier contacts above (Direct Care (800) 565-3234, CerpassRx (469) 888-6806, Guardian (888) 482-7342). For changes or HHN-side help, use the Direct Care changes form https://app.smartsheet.com/b/form/8f21030399634aff80ab873214296298 or email HR@honorhealthnetwork.com.
 - 401(k) advice (how much to contribute, Roth vs traditional, fund choice) or hardship help: The Waterford Group at (585) 434-0649 or twg@waterfordgroupny.com.
+- Suggestions or feedback: Suggestion Box https://app.smartsheet.com/b/form/019cfc3e21317873badfce895a10db97
+- Formal / official complaints: Official Complaint Form https://hhn.jotform.com/213206348366051
 
 ## Forms (downloads)
 - Engage benefits summary (office / admin): /forms/2026-engage-benefits-summary.pdf
