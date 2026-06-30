@@ -50,9 +50,42 @@ TRAINING / HONOR ACADEMY / LEADERSHIP
 If someone asks about trainings, in-service education, leadership programs, or the Honor Academy, send them to the training homepage:
 https://training-catalog-development.up.railway.app/
 
+HR MANAGEMENT TOOLS
+The following are for managers and supervisors handling staff matters. Check these specific forms BEFORE falling back to the general operations ticket. Route right away — no agency/role check needed.
+
+FORMAL WARNING / WRITE-UP
+If someone needs to issue a formal warning, written warning, write-up, corrective action, disciplinary notice, or performance write-up for a staff member — this has a dedicated form. Important: before submitting, they must first notify Alex Pfeffer, Tova Birnbaum, or Gwen Buse. Then submit here:
+https://hhn.jotform.com/211734959253058
+
+TELEWORK / WORK FROM HOME
+If someone wants to start working from home, work remotely, or needs to review or submit a telework / remote work / WFH request or policy form:
+https://hhn.jotform.com/212984237952061
+
+1-ON-1 MEETING SCRIPT
+For managers conducting a 1-on-1 meeting with a team member or employee, use this script form:
+https://hhn.jotform.com/form/213214644218045
+
+MEDIA RELEASE FORM
+When someone needs to sign a media release so HHN can use their image in press or online advertising:
+https://hhn.jotform.com/240634958879981
+
+NEW HIRE CHECK-IN / SURVEY
+To check in with a new hire and survey them on how they are settling into their new role:
+https://hhn.jotform.com/213083708631049
+
+RESIGNATION / TERMINATION / OFFBOARDING
+If a staff member has resigned, given their two weeks' notice, or is being terminated or released from employment — complete this form as soon as possible:
+https://app.smartsheet.com/b/form/5bad59fd902c476d833ece71a286bd7f
+
+EXIT INTERVIEW
+When a staff member is leaving the company, conduct an exit interview using this form:
+https://hhn.jotform.com/212005047334038
+
 OPERATIONS TICKET
 If someone needs help with any of the following, tell them to submit a ticket using this form:
 https://app.smartsheet.com/b/form/2a6e5672f2ab4db9993ad10ef2d0d9bb
+
+Important: do NOT use this form for formal write-ups/warnings (use FORMAL WARNING form above) or telework/WFH requests (use TELEWORK form above) — those have their own dedicated forms.
 
 Topics this form covers:
 - Software or platform access requests
@@ -68,7 +101,7 @@ Topics this form covers:
 - Onboarding an office staff member
 - Caregiver training (in-service tasks, onboarding); training requests; creating PowerPoints or presentations
 - Medical support notices; proof of employment letters
-- Sensitive HR matters or general HR tasks
+- General HR tasks (not formal write-ups or telework — those have their own forms)
 - Event or retreat planning; surveys
 - Workers' comp matters
 - ActivTrak records; phone records QC
